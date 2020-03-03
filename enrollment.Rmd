@@ -38,4 +38,14 @@ spring_19_and_20 <- spring20 %>%
 
 spring_19_and_20
 
+five_largest_classes <- spring_19_and_20 %>%
+  arrange(desc(total)) %>%
+  select(course_title, course_name, instructor_full_name, total) %>%
+  slice(1:5) %>%
+  gt() %>%
+    tab_header(title = "Top Five New Classes in Spring 2020") %>%
+    tab_source_note("Source: Harvard FAS Registrar's Office - Enrollment")
+
+five_largest_classes
+
 ```
