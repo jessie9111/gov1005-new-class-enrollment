@@ -1,0 +1,41 @@
+---
+title: "Enrollment"
+author: "Jessica Edwards"
+date: "3/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(reprex)
+library(gt)
+
+
+spring19 <- download.file(url = "https://registrar.fas.harvard.edu/files/fas-registrar/files/class_enrollment_summary_by_term_3.22.19_0.xlsx", destfile = "spring19.xlsx")
+
+spring20 <- download.file(url = "https://registrar.fas.harvard.edu/files/fas-registrar/files/class_enrollment_summary_by_term_2.25.20_0.xlsx", destfile = "spring20.xlsx")
+```
+
+```{r download_data, echo=FALSE}
+spring19 <- read_excel("spring19.xlsx", skip = 3) %>%
+  clean_names() %>%
+  filter(!is.na(course_name)) %>%
+  select(course_id)
+
+spring20 <- read_excel("spring20.xlsx", skip = 3) %>%
+  clean_names() %>%
+  filter(!is.na(course_name))
+
+spring19
+spring20
+
+spring_19_and_20 <- spring20 %>%
+  anti_join(spring19, by = "course_id")
+
+spring_19_and_20
+
+```
